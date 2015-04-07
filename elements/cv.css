@@ -1,0 +1,19 @@
+cv-polymer,
+cv-polymer /deep/ * {
+  box-sizing: border-box;
+}
+cv-polymer,
+cv-polymer /deep/ cv-side,
+cv-polymer /deep/ cv-content {
+  display: block;
+}
+cv-polymer /deep/ cv-side {
+  position: fixed;
+  height: 100vh;
+}
+cv-polymer /deep/ cv-content {
+  width: 100vw;
+  min-height: 100vh;
+}
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImN2Lmxlc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7QUFDQSxVQUFXO0VBQ1Qsc0JBQUE7O0FBR0Y7QUFDQSxVQUFXO0FBQ1gsVUFBVztFQUNULGNBQUE7O0FBR0YsVUFBVztFQUNULGVBQUE7RUFDQSxhQUFBOztBQUdGLFVBQVc7RUFDVCxZQUFBO0VBQ0EsaUJBQUEiLCJmaWxlIjoiY3YuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiY3YtcG9seW1lcixcbmN2LXBvbHltZXIgL2RlZXAvICoge1xuICBib3gtc2l6aW5nOiBib3JkZXItYm94O1xufVxuXG5jdi1wb2x5bWVyLFxuY3YtcG9seW1lciAvZGVlcC8gY3Ytc2lkZSxcbmN2LXBvbHltZXIgL2RlZXAvIGN2LWNvbnRlbnQge1xuICBkaXNwbGF5OiBibG9jaztcbn1cblxuY3YtcG9seW1lciAvZGVlcC8gY3Ytc2lkZSB7XG4gIHBvc2l0aW9uOiBmaXhlZDtcbiAgaGVpZ2h0OiAxMDB2aDtcbn1cblxuY3YtcG9seW1lciAvZGVlcC8gY3YtY29udGVudCB7XG4gIHdpZHRoOiAxMDB2dztcbiAgbWluLWhlaWdodDogMTAwdmg7XG59Il0sInNvdXJjZVJvb3QiOiIvc291cmNlLyJ9 */

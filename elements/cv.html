@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<link rel="import" href="../static/components/polymer/polymer.html">
+<link rel="import" href="../static/components/core-component-page/core-component-page.html">
+<style>cv-polymer,
+cv-polymer /deep/ * {
+  box-sizing: border-box;
+}
+cv-polymer,
+cv-polymer /deep/ cv-side,
+cv-polymer /deep/ cv-content {
+  display: block;
+}
+cv-polymer /deep/ cv-side {
+  position: fixed;
+  height: 100vh;
+}
+cv-polymer /deep/ cv-content {
+  width: 100vw;
+  min-height: 100vh;
+}
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImN2Lmxlc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7QUFDQSxVQUFXO0VBQ1Qsc0JBQUE7O0FBR0Y7QUFDQSxVQUFXO0FBQ1gsVUFBVztFQUNULGNBQUE7O0FBR0YsVUFBVztFQUNULGVBQUE7RUFDQSxhQUFBOztBQUdGLFVBQVc7RUFDVCxZQUFBO0VBQ0EsaUJBQUEiLCJmaWxlIjoiY3YuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiY3YtcG9seW1lcixcbmN2LXBvbHltZXIgL2RlZXAvICoge1xuICBib3gtc2l6aW5nOiBib3JkZXItYm94O1xufVxuXG5jdi1wb2x5bWVyLFxuY3YtcG9seW1lciAvZGVlcC8gY3Ytc2lkZSxcbmN2LXBvbHltZXIgL2RlZXAvIGN2LWNvbnRlbnQge1xuICBkaXNwbGF5OiBibG9jaztcbn1cblxuY3YtcG9seW1lciAvZGVlcC8gY3Ytc2lkZSB7XG4gIHBvc2l0aW9uOiBmaXhlZDtcbiAgaGVpZ2h0OiAxMDB2aDtcbn1cblxuY3YtcG9seW1lciAvZGVlcC8gY3YtY29udGVudCB7XG4gIHdpZHRoOiAxMDB2dztcbiAgbWluLWhlaWdodDogMTAwdmg7XG59Il0sInNvdXJjZVJvb3QiOiIvc291cmNlLyJ9 */</style>
+<script>(function(Polymer, window) {
+  (function() {
+    var global;
+    global = {
+      ready: false,
+      cv_data: false
+    };
+    Polymer('cv-global', {
+      global: global
+    });
+  })();
+
+  (function() {
+    var cvDataParser = function (new_cvdata) {
+      var cvdata = {};
+      return new_cvdata;
+    }
+    var cvDataApply = function (cvdata) {
+      if(typeof(cvdata.title) === 'string') {
+        window.document.title = cvdata.title;
+      }
+    }
+    Polymer('cv-polymer', {
+      ready: function () {
+        var self;
+        self = this;
+        this.$.cvSource.addEventListener('core-response', function (event) {
+          var cvdata = cvDataParser(event.detail.response);
+          if(cvdata) {
+            cvDataApply(cvdata);
+            self.$.cvGlobal.global.cv_data = cvdata;
+          } else {
+            throw 'cvdata fromat error';
+          }
+        });
+        this.$.cvSource.go();
+      }
+    });
+  })();
+
+  Polymer('cv-side', {
+  });
+
+  Polymer('cv-content', {
+    ready: function () {
+    }
+  });
+
+}).call(this, Polymer, window);
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiIiwic291cmNlcyI6WyJjdi5qcyJdLCJzb3VyY2VzQ29udGVudCI6WyIoZnVuY3Rpb24oUG9seW1lciwgd2luZG93KSB7XG4gIChmdW5jdGlvbigpIHtcbiAgICB2YXIgZ2xvYmFsO1xuICAgIGdsb2JhbCA9IHtcbiAgICAgIHJlYWR5OiBmYWxzZSxcbiAgICAgIGN2X2RhdGE6IGZhbHNlXG4gICAgfTtcbiAgICBQb2x5bWVyKCdjdi1nbG9iYWwnLCB7XG4gICAgICBnbG9iYWw6IGdsb2JhbFxuICAgIH0pO1xuICB9KSgpO1xuXG4gIChmdW5jdGlvbigpIHtcbiAgICB2YXIgY3ZEYXRhUGFyc2VyID0gZnVuY3Rpb24gKG5ld19jdmRhdGEpIHtcbiAgICAgIHZhciBjdmRhdGEgPSB7fTtcbiAgICAgIHJldHVybiBuZXdfY3ZkYXRhO1xuICAgIH1cbiAgICB2YXIgY3ZEYXRhQXBwbHkgPSBmdW5jdGlvbiAoY3ZkYXRhKSB7XG4gICAgICBpZih0eXBlb2YoY3ZkYXRhLnRpdGxlKSA9PT0gJ3N0cmluZycpIHtcbiAgICAgICAgd2luZG93LmRvY3VtZW50LnRpdGxlID0gY3ZkYXRhLnRpdGxlO1xuICAgICAgfVxuICAgIH1cbiAgICBQb2x5bWVyKCdjdi1wb2x5bWVyJywge1xuICAgICAgcmVhZHk6IGZ1bmN0aW9uICgpIHtcbiAgICAgICAgdmFyIHNlbGY7XG4gICAgICAgIHNlbGYgPSB0aGlzO1xuICAgICAgICB0aGlzLiQuY3ZTb3VyY2UuYWRkRXZlbnRMaXN0ZW5lcignY29yZS1yZXNwb25zZScsIGZ1bmN0aW9uIChldmVudCkge1xuICAgICAgICAgIHZhciBjdmRhdGEgPSBjdkRhdGFQYXJzZXIoZXZlbnQuZGV0YWlsLnJlc3BvbnNlKTtcbiAgICAgICAgICBpZihjdmRhdGEpIHtcbiAgICAgICAgICAgIGN2RGF0YUFwcGx5KGN2ZGF0YSk7XG4gICAgICAgICAgICBzZWxmLiQuY3ZHbG9iYWwuZ2xvYmFsLmN2X2RhdGEgPSBjdmRhdGE7XG4gICAgICAgICAgfSBlbHNlIHtcbiAgICAgICAgICAgIHRocm93ICdjdmRhdGEgZnJvbWF0IGVycm9yJztcbiAgICAgICAgICB9XG4gICAgICAgIH0pO1xuICAgICAgICB0aGlzLiQuY3ZTb3VyY2UuZ28oKTtcbiAgICAgIH1cbiAgICB9KTtcbiAgfSkoKTtcblxuICBQb2x5bWVyKCdjdi1zaWRlJywge1xuICB9KTtcblxuICBQb2x5bWVyKCdjdi1jb250ZW50Jywge1xuICAgIHJlYWR5OiBmdW5jdGlvbiAoKSB7XG4gICAgfVxuICB9KTtcblxufSkuY2FsbCh0aGlzLCBQb2x5bWVyLCB3aW5kb3cpOyJdLCJmaWxlIjoiY3YuanMiLCJzb3VyY2VSb290IjoiL3NvdXJjZS8ifQ==</script>
+<polymer-element name="cv-global" hidden></polymer-element>
+<polymer-element name="cv-side">
+  <template></template>
+</polymer-element>
+<polymer-element name="cv-content">
+  <template>
+    <cv-global id="cvGlobal"></cv-global>
+    <template if="{{$.cvGlobal.global.cv_data}}"><span>author: {{$.cvGlobal.global.cv_data.source.author}}</span></template>
+  </template>
+</polymer-element>
+<polymer-element name="cv-polymer">
+  <template>
+    <core-ajax id="cvSource" url="https://raw.githubusercontent.com/WhaleWatching/cv-polymer/gh-pages/cv-data-example.json" handleAs="json"></core-ajax>
+    <cv-global id="cvGlobal"></cv-global>
+    <cv-side id="cvSide"></cv-side>
+    <cv-content id="cvContent"></cv-content>
+  </template>
+</polymer-element>

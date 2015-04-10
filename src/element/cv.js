@@ -1,47 +1,44 @@
 (function(Polymer, window) {
+
+  // Get page url_params
+  var url_params = (function () {
+    params_string = document.location.search.split("+").join(" ");
+    var
+      params = {},
+      tokens,
+      reg = /[?&]?([^=]+)=([^&]*)/g;
+    while (tokens = reg.exec(params_string)) {
+      params[decodeURIComponent(tokens[1])]
+        = decodeURIComponent(tokens[2]);
+    }
+    return params;
+  })();
+
+  // Globals
   (function() {
     var global;
     global = {
-      ready: false,
-      cv_data: false
+      resolved: false,
+      error_state: null,
+      cv_data: null
     };
     Polymer('cv-global', {
-      global: global
+      global: global,
+      clearState: function () {
+        global.resolved = false;
+        global.error_state = null;
+      },
+      resolve: function () {
+        global.resolved = true;
+      }
     });
   })();
 
+  // Root element
   (function() {
-    var cvDataParser = function (new_cvdata) {
-      var cvdata = {};
-      return new_cvdata;
-    }
-    var cvDataApply = function (cvdata) {
-      if(typeof(cvdata.title) === 'string') {
-        window.document.title = cvdata.title;
-      }
-    }
-    var getDataUrl = function () {
-      var hashStr = window.location.hash;
-      if(hashStr.length > 0) {
-        return hashStr.replace(/^#!|^#/, '');
-      } else {
-        return 'cv-data-example.json';
-      }
-    }
     Polymer('cv-polymer', {
       ready: function () {
-        var self;
-        self = this;
-        this.$.cvSource.addEventListener('core-response', function (event) {
-          var cvdata = cvDataParser(event.detail.response);
-          if(cvdata) {
-            cvDataApply(cvdata);
-            self.$.cvGlobal.global.cv_data = cvdata;
-          } else {
-            throw 'cvdata fromat error';
-          }
-        });
-        this.$.cvSource.url = getDataUrl();
+        var self = this;
         this.$.cvSource.go();
       }
     });
@@ -50,9 +47,67 @@
   Polymer('cv-side', {
   });
 
+  Polymer('cv-holder', {
+  });
+
   Polymer('cv-content', {
     ready: function () {
     }
   });
 
-}).call(this, Polymer, window);
+  // cvdata source element
+  (function () {
+    var _cvdata = null;
+    var cvDataParser = function (new_cvdata) {
+      var cvdata = {};
+      return new_cvdata;
+    }
+    var cvDataApply = function (cvdata) {
+      _cvdata = cvdata;
+      if(cvdata.info && typeof(cvdata.info.title) === 'string') {
+        window.document.title = cvdata.info.title;
+      }
+    }
+    var getDataUrl = function () {
+      if(url_params.cvdata) {
+        return url_params.cvdata;
+      } else {
+        return 'cv-data-example.json';
+      }
+    }
+    Polymer('cv-source', {
+      ready: function () {
+        var self;
+        self = this;
+        var cvDataResponse = function (event) {
+          var cvdata = cvDataParser(event.detail.response);
+          if(cvdata) {
+            self.$.cvGlobal.resolve();
+            cvDataApply(cvdata);
+            self.$.cvGlobal.global.cv_data = cvdata;
+          } else {
+            var error_event = new Event('cv-error');
+            error_event.detail = {
+              response: 'cvdata fromat error'
+            };
+            cvDataError(error_event);
+          }
+        }
+        var cvDataError = function (event) {
+          console.error(event.detail.response);
+        }
+        this.$.coreAjax.addEventListener('core-response', cvDataResponse);
+        this.$.coreAjax.addEventListener('core-error', cvDataError);
+      },
+      go: function () {
+        this.$.cvGlobal.clearState();
+        this.$.coreAjax.url = getDataUrl();
+        this.$.coreAjax.go();
+      },
+      get cvdata() {
+        return _cvdata
+      }
+    });
+  })();
+
+})(Polymer, window);

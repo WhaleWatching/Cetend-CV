@@ -1,20 +1,15 @@
+html /deep/ [resolved=false],
+html /deep/ [hidden-condition=true] {
+  display: none!important;
+}
+
 cv-polymer,
 cv-polymer /deep/ * {
   box-sizing: border-box;
 }
 
-cv-polymer,
 cv-polymer /deep/ cv-side,
+cv-polymer /deep/ cv-holder,
 cv-polymer /deep/ cv-content {
   display: block;
-}
-
-cv-polymer /deep/ cv-side {
-  position: fixed;
-  height: 100vh;
-}
-
-cv-polymer /deep/ cv-content {
-  width: 100vw;
-  min-height: 100vh;
 }

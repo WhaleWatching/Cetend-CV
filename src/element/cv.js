@@ -20,8 +20,9 @@
     global = {
       resolved: false,
       error_state: null,
-      cv_data: null
+      cvdata: null
     };
+    window.global = global;
     Polymer('cv-global', {
       global: global,
       clearState: function () {
@@ -55,6 +56,12 @@
     }
   });
 
+  Polymer('cv-section', {
+    ready: function () {
+      console.log(this.data);
+    }
+  });
+
   // cvdata source element
   (function () {
     var _cvdata = null;
@@ -84,7 +91,7 @@
           if(cvdata) {
             self.$.cvGlobal.resolve();
             cvDataApply(cvdata);
-            self.$.cvGlobal.global.cv_data = cvdata;
+            self.$.cvGlobal.global.cvdata = cvdata;
           } else {
             var error_event = new Event('cv-error');
             error_event.detail = {

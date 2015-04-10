@@ -16,11 +16,33 @@
   </template>
 </polymer-element>
 
+<polymer-element name="cv-holder" horizontal layout center>
+  <template>
+    <style>
+      :host {
+        width: 100vw;
+        height: 100vh;
+        background-color: #eee;
+      }
+      p {
+        text-align: center;
+        color: #999;
+      }
+    </style>
+    <cv-global id="cvGlobal"></cv-global>
+    <p flex>Preparing</p>
+  </template>
+</polymer-element>
+
 <polymer-element name="cv-side">
   <template>
     <style>
+      :host {
+        position: fixed;
+      }
       :host(.desktop) {
         width: 240px;
+        height: 100vh;
       }
       :host(.desktop.wide) {
         width: 320px;
@@ -34,53 +56,49 @@
   </template>
 </polymer-element>
 
-<polymer-element name="cv-holder">
-  <template>
-    <cv-global id="cvGlobal"></cv-global>
-  </template>
-</polymer-element>
-
 <polymer-element name="cv-content" flex>
   <template>
     <style>
       @media screen {
         :host(.desktop) {
-          overflow-y: scroll;
+          margin-left: 240px;
         }
-      }
-      .test {
-        height: 400px;
-        background-color: #333;
-      }
-      .test:nth-child(even) {
-        background-color: #777;
+        :host(.desktop.wide) {
+          margin-left: 320px;
+        }
       }
     </style>
     <cv-global id="cvGlobal"></cv-global>
-    <div class="test">a</div>
-    <div class="test">b</div>
-    <div class="test">c</div>
-    <div class="test">d</div>
-    <div class="test">e</div>
-    <div class="test">f</div>
-    <div class="test">g</div>
+    <template if="{{$.cvGlobal.global.cvdata}}">
+      <article>
+        <template repeat="{{section in $.cvGlobal.global.cvdata.sections}}">
+          <cv-section data="{{section}}">
+          </cv-section>
+        </template>
+      </article>
+    </template>
+  </template>
+</polymer-element>
+
+<polymer-element name="cv-section" attributes="data">
+  <template>
+    <template repeat="{{element in data.content}}">
+      <div>{{element.text}}</div>
+    </template>
   </template>
 </polymer-element>
 
 <polymer-element name="cv-polymer">
   <template>
     <style>
-      .container.desktop {
-        height: 100vh;
-      }
     </style>
     <cv-global id="cvGlobal"></cv-global>
     <cv-source id="cvSource"></cv-source>
     <core-media-query id="mediaQueryPhoneScreen" query="max-width: 960px" queryMatches="{{phoneScreen}}"></core-media-query>
     <core-media-query id="mediaQueryPhoneScreen" query="min-width: 1367px" queryMatches="{{wideScreen}}"></core-media-query>
-    <div class="container {{ {desktop: !phoneScreen} | tokenList}}" layout vertical?="{{phoneScreen}}" horizontal?="{{!phoneScreen}}">
+    <div class="container {{ {desktop: !phoneScreen} | tokenList}}" layout vertical>
       <cv-side id="cvSide" resolved="{{$.cvGlobal.global.resolved}}" class="{{ {mobile: phoneScreen, desktop: !phoneScreen, wide: wideScreen} | tokenList}}"></cv-side>
-      <cv-content id="cvContent" resolved="{{$.cvGlobal.global.resolved}}" class="{{ {desktop: !phoneScreen} | tokenList}}"></cv-content>
+      <cv-content id="cvContent" resolved="{{$.cvGlobal.global.resolved}}" class="{{ {mobile: phoneScreen, desktop: !phoneScreen, wide: wideScreen} | tokenList}}"></cv-content>
     </div>
     <cv-holder id="cvHolder" hidden-condition="{{$.cvGlobal.global.resolved}}"></cv-holder>
   </template>

@@ -98,6 +98,11 @@
 <polymer-element name="cv-footer" attributes="data colorScheme">
   <template>
     <style>
+      @media print {
+        :host {
+          display: none;
+        }
+      }
       footer {
         font-size: 12px;
         line-height: 2em;
@@ -173,6 +178,16 @@
         display: block;
         padding: 120px 0;
       }
+    </style>
+    <template repeat="{{list in data.details}}">
+      <cv-list data="{{list}}" colorScheme="{{colorScheme}}"></cv-list>
+    </template>
+  </template>
+</polymer-element>
+
+<polymer-element name="cv-list" attributes="data colorScheme">
+  <template>
+    <style>
       .list {
         margin-bottom: 2em;
       }
@@ -208,19 +223,17 @@
         margin: 0;
       }
     </style>
-    <template repeat="{{list in data.details}}">
-      <div class="list {{colorScheme || 'color-scheme-dark'}}">
-        <h4 class="title scheme-text">{{list.title}}</h4>
-        <dl>
-          <template repeat="{{detail in list.field}}">
-            <div class="pair" layout horizontal>
-              <dt class="scheme-text-sub">{{detail.name}}</dt>
-              <dd class="scheme-text" flex>{{detail.value}}</dd>
-            </div>
-          </template>
-        </dl>
-      </div>
-    </template>
+    <div class="list {{colorScheme || 'color-scheme-dark'}}">
+      <h4 class="title scheme-text">{{data.title}}</h4>
+      <dl>
+        <template repeat="{{detail in data.field}}">
+          <div class="pair" layout horizontal>
+            <dt class="scheme-text-sub">{{detail.name}}</dt>
+            <dd class="scheme-text" flex>{{detail.value}}</dd>
+          </div>
+        </template>
+      </dl>
+    </div>
   </template>
 </polymer-element>
 

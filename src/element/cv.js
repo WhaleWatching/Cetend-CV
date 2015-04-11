@@ -77,6 +77,10 @@
   Polymer('cv-section', {
   });
 
+  Polymer('cv-list', {
+  });
+
+
   Polymer('cv-special-cover', {
   });
 

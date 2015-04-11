@@ -54,50 +54,72 @@ cv-polymer /deep/ h3,
 cv-polymer /deep/ h4 {
   margin: 1em 0;
 }
+@media screen {
+  cv-polymer .color-scheme-dark {
+    .scheme-text,
+    .scheme-text-sub,
+    .scheme-text-thin {
+      transition: color 0.6s;
+    }
+    .scheme-text {
+      color: rgba(32, 32, 32, 1);
+    }
+    .scheme-text-sub {
+      color: rgba(32, 32, 32, 0.7);
+    }
+    .scheme-text-thin {
+      color: rgba(32, 32, 32, 0.4);
+    }
+  }
+  cv-polymer /deep/ .color-scheme-dark {
+    .scheme-text,
+    .scheme-text-sub,
+    .scheme-text-thin {
+      transition: color 0.6s;
+    }
+    .scheme-text {
+      color: rgba(32, 32, 32, 1);
+    }
+    .scheme-text-sub {
+      color: rgba(32, 32, 32, 0.7);
+    }
+    .scheme-text-thin {
+      color: rgba(32, 32, 32, 0.4);
+    }
+  }
 
-cv-polymer .color-scheme-dark {
-  .scheme-text {
-    color: rgba(32, 32, 32, 1);
+  cv-polymer .color-scheme-light {
+    .scheme-text,
+    .scheme-text-sub,
+    .scheme-text-thin {
+      transition: color 0.6s;
+    }
+    .scheme-text {
+      color: rgba(255, 255, 255, 1);
+    }
+    .scheme-text-sub {
+      color: rgba(255, 255, 255, 0.7);
+    }
+    .scheme-text-thin {
+      color: rgba(255, 255, 255, 0.5);
+    }
   }
-  .scheme-text-sub {
-    color: rgba(32, 32, 32, 0.7);
-  }
-  .scheme-text-thin {
-    color: rgba(32, 32, 32, 0.4);
-  }
-}
-cv-polymer /deep/ .color-scheme-dark {
-  .scheme-text {
-    color: rgba(32, 32, 32, 1);
-  }
-  .scheme-text-sub {
-    color: rgba(32, 32, 32, 0.7);
-  }
-  .scheme-text-thin {
-    color: rgba(32, 32, 32, 0.4);
-  }
-}
 
-cv-polymer .color-scheme-light {
-  .scheme-text {
-    color: rgba(255, 255, 255, 1);
+  cv-polymer /deep/ .color-scheme-light {
+    .scheme-text,
+    .scheme-text-sub,
+    .scheme-text-thin {
+      transition: color 0.6s;
+    }
+    .scheme-text {
+      color: rgba(255, 255, 255, 1);
+    }
+    .scheme-text-sub {
+      color: rgba(255, 255, 255, 0.7);
+    }
+    .scheme-text-thin {
+      color: rgba(255, 255, 255, 0.5);
+    }
   }
-  .scheme-text-sub {
-    color: rgba(255, 255, 255, 0.7);
-  }
-  .scheme-text-thin {
-    color: rgba(255, 255, 255, 0.5);
-  }
-}
 
-cv-polymer /deep/ .color-scheme-light {
-  .scheme-text {
-    color: rgba(255, 255, 255, 1);
-  }
-  .scheme-text-sub {
-    color: rgba(255, 255, 255, 0.7);
-  }
-  .scheme-text-thin {
-    color: rgba(255, 255, 255, 0.5);
-  }
 }

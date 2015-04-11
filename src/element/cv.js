@@ -38,9 +38,19 @@
   // Root element
   (function() {
     Polymer('cv-polymer', {
+      observe: {
+        'data.cvdata': 'cvdataUpdate'
+      },
       ready: function () {
         var self = this;
         this.$.cvSource.go();
+        this.data = this.$.cvGlobal.global;
+      },
+      backgroundUpdate: function (background_data) {
+        this.current_background = background_data;
+      },
+      cvdataUpdate: function (oldValue, newValue) {
+        this.backgroundUpdate(newValue.sections[0].background);
       }
     });
   })();
@@ -51,15 +61,17 @@
   Polymer('cv-holder', {
   });
 
+  Polymer('cv-backgroud', {
+  });
+
+
   Polymer('cv-content', {
-    ready: function () {
-    }
   });
 
   Polymer('cv-section', {
-    ready: function () {
-      console.log(this.data);
-    }
+  });
+
+  Polymer('cv-special-cover', {
   });
 
   // cvdata source element
@@ -79,7 +91,7 @@
       if(url_params.cvdata) {
         return url_params.cvdata;
       } else {
-        return 'cv-data-example.json';
+        return '/cv-data-example/cv-data-example.json';
       }
     }
     Polymer('cv-source', {

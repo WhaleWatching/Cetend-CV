@@ -45,9 +45,13 @@
         var self = this;
         this.$.cvSource.go();
         this.data = this.$.cvGlobal.global;
+        this.colorSchemeUpdate('color-scheme-light');
       },
-      backgroundUpdate: function (background_data) {
-        this.current_background = background_data;
+      backgroundUpdate: function (background) {
+        this.current_background = background;
+      },
+      colorSchemeUpdate: function (color_scheme) {
+        this.current_color_scheme = color_scheme;
       },
       cvdataUpdate: function (oldValue, newValue) {
         this.backgroundUpdate(newValue.sections[0].background);
@@ -64,6 +68,8 @@
   Polymer('cv-backgroud', {
   });
 
+  Polymer('cv-footer', {
+  });
 
   Polymer('cv-content', {
   });
@@ -72,6 +78,9 @@
   });
 
   Polymer('cv-special-cover', {
+  });
+
+  Polymer('cv-special-overview', {
   });
 
   // cvdata source element
@@ -128,5 +137,16 @@
       }
     });
   })();
+
+  PolymerExpressions.prototype.utcToString = function (input, type) {
+    console.log(input);
+    var time = new Date(input);
+    switch(type) {
+      case 'date':
+        return time.toDateString();
+      case 'time':
+        return time.toTimeString();
+    }
+  };
 
 })(Polymer, window);

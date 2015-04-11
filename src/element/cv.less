@@ -9,18 +9,84 @@ cv-polymer /deep/ * {
   font-family: 'Lato';
 }
 
-cv-polymer /deep/ cv-side,
-cv-polymer /deep/ cv-holder,
-cv-polymer /deep/ cv-content {
-  display: block;
+cv-polymer a.link-normal {
+  color: inherit;
+}
+cv-polymer /deep/ a.link-normal {
+  color: inherit;
 }
 
+cv-polymer a.link-shy {
+  text-decoration: none;
+}
+cv-polymer a.link-shy:hover {
+  text-decoration: underline;
+}
+cv-polymer /deep/ a.link-shy {
+  text-decoration: none;
+}
+cv-polymer /deep/ a.link-shy:hover {
+  text-decoration: underline;
+}
+
+cv-polymer h1 {
+  font-size: 2em;
+}
+cv-polymer h2 {
+  font-size: 1.5em;
+}
+cv-polymer h3 {
+  font-size: 1.17em;
+}
+cv-polymer h4 {
+  font-size: 1em;
+}
+
+cv-polymer h1,
+cv-polymer h2,
+cv-polymer h3,
+cv-polymer h4 {
+  margin: 1em 0;
+}
+cv-polymer /deep/ h1,
+cv-polymer /deep/ h2,
+cv-polymer /deep/ h3,
+cv-polymer /deep/ h4 {
+  margin: 1em 0;
+}
+
+cv-polymer .color-scheme-dark {
+  .scheme-text {
+    color: rgba(32, 32, 32, 1);
+  }
+  .scheme-text-sub {
+    color: rgba(32, 32, 32, 0.7);
+  }
+  .scheme-text-thin {
+    color: rgba(32, 32, 32, 0.4);
+  }
+}
 cv-polymer /deep/ .color-scheme-dark {
   .scheme-text {
     color: rgba(32, 32, 32, 1);
   }
   .scheme-text-sub {
     color: rgba(32, 32, 32, 0.7);
+  }
+  .scheme-text-thin {
+    color: rgba(32, 32, 32, 0.4);
+  }
+}
+
+cv-polymer .color-scheme-light {
+  .scheme-text {
+    color: rgba(255, 255, 255, 1);
+  }
+  .scheme-text-sub {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .scheme-text-thin {
+    color: rgba(255, 255, 255, 0.5);
   }
 }
 
@@ -30,5 +96,8 @@ cv-polymer /deep/ .color-scheme-light {
   }
   .scheme-text-sub {
     color: rgba(255, 255, 255, 0.7);
+  }
+  .scheme-text-thin {
+    color: rgba(255, 255, 255, 0.5);
   }
 }

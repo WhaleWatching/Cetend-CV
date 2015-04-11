@@ -34,7 +34,7 @@
   </template>
 </polymer-element>
 
-<polymer-element name="cv-side" attributes="data">
+<polymer-element name="cv-side" attributes="data colorScheme">
   <template>
     <style>
       :host {
@@ -56,42 +56,80 @@
   </template>
 </polymer-element>
 
-<polymer-element name="cv-content" attributes="data">
+<polymer-element name="cv-content" attributes="data colorScheme">
   <template>
     <style>
       article {
-        padding: 0 10px;
+        padding: 0 30px;
+      }
+      @media print {
+        article {
+          width: 480px;
+          margin: 0 auto;
+        }
       }
       @media screen {
         :host(.desktop) {
           margin-left: 240px;
         }
         :host(.desktop) article {
-          padding: 0 20px;
+          padding: 0 40px;
         }
         :host(.desktop.wide) {
           margin-left: 320px;
         }
         :host(.desktop.wide) article {
-          padding: 0 40px;
+          padding: 0 80px;
         }
       }
     </style>
     <template if="{{data}}">
       <article>
         <template repeat="{{section in data.sections}}">
-          <cv-section data="{{section}}">
+          <cv-section data="{{section}}" colorScheme="{{colorScheme}}">
           </cv-section>
         </template>
+        <cv-footer colorScheme="{{colorScheme}}" data="{{data}}"></cv-footer>
       </article>
     </template>
   </template>
 </polymer-element>
 
-<polymer-element name="cv-section" attributes="data">
+<polymer-element name="cv-footer" attributes="data colorScheme">
   <template>
-    <template if="{{data.special && data.special.cover}}">
-      <cv-special-cover data="{{data.special.cover}}"></cv-special-cover>
+    <style>
+      footer {
+        font-size: 12px;
+        line-height: 2em;
+        padding: 1em 0;
+      }
+      span:not(:last-child) {
+        margin-right: 1em;
+      }
+      span {
+        white-space: nowrap;
+      }
+    </style>
+    <footer class="{{colorScheme || 'color-scheme-dark'}}">
+      <span class="scheme-text-thin">
+        Powered by 
+        <a href="https://github.com/Cetend-CV" target="_blank" class="link-shy link-normal">Centend-CV</a>
+      </span>
+      <span class="scheme-text-thin">
+        CV last modified 
+        {{ data.info.modify_time | utcToString('date')}}
+      </span>
+    </footer>
+  </template>
+</polymer-element>
+
+<polymer-element name="cv-section" attributes="data colorScheme">
+  <template>
+    <template if="{{data.type == 'cover'}}">
+      <cv-special-cover data="{{data.special.cover}}" colorScheme="{{colorScheme}}"></cv-special-cover>
+    </template>
+    <template if="{{data.type == 'overview'}}">
+      <cv-special-overview data="{{data.special.overview}}" colorScheme="{{colorScheme}}"></cv-special-overview>
     </template>
     <template repeat="{{element in data.content}}">
       <div>{{element.text}}</div>
@@ -99,11 +137,13 @@
   </template>
 </polymer-element>
 
-<polymer-element name="cv-special-cover" attributes="data" horizontal layout center>
+<polymer-element name="cv-special-cover" attributes="data colorScheme" horizontal layout center>
   <template>
     <style>
       :host {
         height: 100vh;
+        min-height: 600px;
+        page-break-after: always;
       }
       header {
         padding-bottom: 20vh;
@@ -116,13 +156,71 @@
         height: 20vh;
       }
     </style>
-    <header class="{{data.color_scheme}}">
+    <header class="{{colorScheme || 'color-scheme-dark'}}">
       <template if="{{data.avatar}}">
         <img class="avatar" src="{{data.avatar}}">
       </template>
       <h1 class="title scheme-text">{{data.title}}</h1>
       <h4 class="subtitle scheme-text-sub">{{data.subtitle}}</h4>
     </header>
+  </template>
+</polymer-element>
+
+<polymer-element name="cv-special-overview" attributes="data colorScheme">
+  <template>
+    <style>
+      :host {
+        display: block;
+        padding: 120px 0;
+      }
+      .list {
+        margin-bottom: 2em;
+      }
+      .title {
+        display: block;
+        margin-left: 120px;
+      }
+      .pair dt {
+        width: 120px;
+        text-align: right;
+        padding: 0 10px 0 0;
+      }
+      @media only screen and (max-width: 480px) {
+        .list {
+          font-size: 14px;
+        }
+        .title {
+          margin-left: 80px;
+        }
+        .pair dt {
+          width: 80px;
+        }
+      }
+      @media only screen and (min-width: 1020px) {
+        .title {
+          margin-left: 140px;
+        }
+        .pair dt {
+          width: 140px;
+        }
+      }
+      .pair dd {
+        margin: 0;
+      }
+    </style>
+    <template repeat="{{list in data.details}}">
+      <div class="list {{colorScheme || 'color-scheme-dark'}}">
+        <h4 class="title scheme-text">{{list.title}}</h4>
+        <dl>
+          <template repeat="{{detail in list.field}}">
+            <div class="pair" layout horizontal>
+              <dt class="scheme-text-sub">{{detail.name}}</dt>
+              <dd class="scheme-text" flex>{{detail.value}}</dd>
+            </div>
+          </template>
+        </dl>
+      </div>
+    </template>
   </template>
 </polymer-element>
 
@@ -133,9 +231,9 @@
         position: fixed;
       }
       .background {
-        height: 100vh;
+        height: 120vh;
         width: 100vw;
-        transition: 1.5s;
+        transition: background 1.5s;
       }
     </style>
     <div class="background" style="background-color: rgb({{data.color.r}},{{data.color.g}},{{data.color.b}});"></div>
@@ -158,12 +256,12 @@
     </style>
     <cv-global id="cvGlobal"></cv-global>
     <cv-source id="cvSource"></cv-source>
-    <core-media-query id="mediaQueryPhoneScreen" query="max-width: 960px" queryMatches="{{phoneScreen}}"></core-media-query>
+    <core-media-query id="mediaQueryPhoneScreen" query="max-width: 800px" queryMatches="{{phoneScreen}}"></core-media-query>
     <core-media-query id="mediaQueryPhoneScreen" query="min-width: 1367px" queryMatches="{{wideScreen}}"></core-media-query>
     <cv-backgroud id="cvBackground" data="{{current_background}}"></cv-backgroud>
     <div class="container {{ {desktop: !phoneScreen} | tokenList}}" layout vertical>
-      <cv-side id="cvSide" resolved="{{data.resolved}}" class="{{ {mobile: phoneScreen, desktop: !phoneScreen, wide: wideScreen} | tokenList}}" data="{{data.cvdata}}"></cv-side>
-      <cv-content id="cvContent" flex resolved="{{data.resolved}}" class="{{ {mobile: phoneScreen, desktop: !phoneScreen, wide: wideScreen} | tokenList}}" data="{{data.cvdata}}"></cv-content>
+      <cv-side id="cvSide" resolved="{{data.resolved}}" class="{{ {mobile: phoneScreen, desktop: !phoneScreen, wide: wideScreen} | tokenList}}" data="{{data.cvdata}}" colorScheme="{{current_color_scheme}}"></cv-side>
+      <cv-content id="cvContent" flex resolved="{{data.resolved}}" class="{{ {mobile: phoneScreen, desktop: !phoneScreen, wide: wideScreen} | tokenList}}" data="{{data.cvdata}}" colorScheme="{{current_color_scheme}}"></cv-content>
     </div>
     <cv-holder id="cvHolder" hidden-condition="{{data.resolved}}"></cv-holder>
   </template>

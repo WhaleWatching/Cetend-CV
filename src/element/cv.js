@@ -29,6 +29,9 @@
         global.resolved = false;
         global.error_state = null;
       },
+      error: function (error_state) {
+        global.error_state = error_state;
+      },
       resolve: function () {
         global.resolved = true;
       }
@@ -80,11 +83,16 @@
   Polymer('cv-list', {
   });
 
+  Polymer('cv-marked-area', {
+  });
 
   Polymer('cv-special-cover', {
   });
 
   Polymer('cv-special-overview', {
+  });
+
+  Polymer('cv-special-article', {
   });
 
   // cvdata source element
@@ -120,13 +128,17 @@
           } else {
             var error_event = new Event('cv-error');
             error_event.detail = {
-              response: 'cvdata fromat error'
+              response: {
+                response: 'cvdata fromat error',
+                statusCode: 800
+              }
             };
             cvDataError(error_event);
           }
         }
         var cvDataError = function (event) {
-          console.error(event.detail.response);
+          self.$.cvGlobal.error(event.detail.response.response);
+          console.log(event.detail.response.response);
         }
         this.$.coreAjax.addEventListener('core-response', cvDataResponse);
         this.$.coreAjax.addEventListener('core-error', cvDataError);
@@ -143,7 +155,6 @@
   })();
 
   PolymerExpressions.prototype.utcToString = function (input, type) {
-    console.log(input);
     var time = new Date(input);
     switch(type) {
       case 'date':

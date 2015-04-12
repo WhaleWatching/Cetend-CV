@@ -1,12 +1,26 @@
-html /deep/ [resolved=false],
-html /deep/ [hidden-condition=true] {
-  display: none!important;
-}
 
 cv-polymer,
+cv-polymer *,
 cv-polymer /deep/ * {
   box-sizing: border-box;
   font-family: 'Lato';
+}
+
+// Hacks for Safari, Safari doesn't regonize /deep/ rules, and rules combined
+//  /deep/ rules, so here're two rules of same purpose
+cv-polymer [resolved=false],
+cv-polymer [hidden-condition=true] {
+  display: none!important;
+}
+cv-polymer /deep/ [resolved=false],
+cv-polymer /deep/ [hidden-condition=true] {
+  display: none!important;
+}
+
+@media print {
+  a {
+    text-decoration: none!important;
+  }
 }
 
 cv-polymer a.link-normal {
@@ -29,31 +43,34 @@ cv-polymer /deep/ a.link-shy:hover {
   text-decoration: underline;
 }
 
-cv-polymer h1 {
-  font-size: 2em;
+cv-polymer marked-element {
+  a {
+    color: inherit;
+  }
+  p {
+    text-align: justify;
+  }
 }
-cv-polymer h2 {
-  font-size: 1.5em;
-}
-cv-polymer h3 {
-  font-size: 1.17em;
-}
-cv-polymer h4 {
-  font-size: 1em;
+cv-polymer /deep/ marked-element {
+  a {
+    color: inherit;
+  }
+  p {
+    text-align: justify;
+  }
 }
 
-cv-polymer h1,
-cv-polymer h2,
-cv-polymer h3,
-cv-polymer h4 {
-  margin: 1em 0;
+cv-polymer .marked-inline {
+  p {
+    margin: 0;
+  }
 }
-cv-polymer /deep/ h1,
-cv-polymer /deep/ h2,
-cv-polymer /deep/ h3,
-cv-polymer /deep/ h4 {
-  margin: 1em 0;
+cv-polymer /deep/ .marked-inline {
+  p {
+    margin: 0;
+  }
 }
+
 @media screen {
   cv-polymer .color-scheme-dark {
     .scheme-text,
@@ -70,6 +87,9 @@ cv-polymer /deep/ h4 {
     .scheme-text-thin {
       color: rgba(32, 32, 32, 0.4);
     }
+    .scheme-border-trans {
+      border-color: rgba(0, 0, 0, 0.5)
+    }
   }
   cv-polymer /deep/ .color-scheme-dark {
     .scheme-text,
@@ -85,6 +105,9 @@ cv-polymer /deep/ h4 {
     }
     .scheme-text-thin {
       color: rgba(32, 32, 32, 0.4);
+    }
+    .scheme-border-trans {
+      border-color: rgba(0, 0, 0, 0.5)
     }
   }
 
@@ -103,6 +126,9 @@ cv-polymer /deep/ h4 {
     .scheme-text-thin {
       color: rgba(255, 255, 255, 0.5);
     }
+    .scheme-border-trans {
+      border-color: rgba(255, 255, 255, 0.5)
+    }
   }
 
   cv-polymer /deep/ .color-scheme-light {
@@ -119,6 +145,9 @@ cv-polymer /deep/ h4 {
     }
     .scheme-text-thin {
       color: rgba(255, 255, 255, 0.5);
+    }
+    .scheme-border-trans {
+      border-color: rgba(255, 255, 255, 0.5)
     }
   }
 

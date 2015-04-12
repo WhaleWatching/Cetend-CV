@@ -2,6 +2,7 @@
 <link rel="import" href="../static/components/polymer/polymer.html">
 <link rel="import" href="../static/components/core-ajax/core-ajax.html">
 <link rel="import" href="../static/components/core-media-query/core-media-query.html">
+<link rel="import" href="../static/components/marked-element/marked-element.html">
 <!-- smoosh -->
 <link rel="stylesheet" href="cv.css" inline>
 <script src="cv.js" inline></script>
@@ -19,6 +20,14 @@
 <polymer-element name="cv-holder" horizontal layout center>
   <template>
     <style>
+      @media print {
+        :host {
+          display: none;
+        }
+        p {
+          display: none;
+        }
+      }
       :host {
         width: 100vw;
         height: 100vh;
@@ -30,7 +39,12 @@
       }
     </style>
     <cv-global id="cvGlobal"></cv-global>
-    <p flex>Preparing</p>
+    <template if="{{!$.cvGlobal.global.error_state}}">
+      <p flex>Preparing</p>
+    </template>
+    <template if="{{$.cvGlobal.global.error_state}}">
+      <p flex>Load failed: {{$.cvGlobal.global.error_state}}</p>
+    </template>
   </template>
 </polymer-element>
 
@@ -64,7 +78,7 @@
       }
       @media print {
         article {
-          width: 480px;
+          width: 80%;
           margin: 0 auto;
         }
       }
@@ -104,6 +118,7 @@
         }
       }
       footer {
+        margin-top: 200px;
         font-size: 12px;
         line-height: 2em;
         padding: 1em 0;
@@ -130,15 +145,24 @@
 
 <polymer-element name="cv-section" attributes="data colorScheme">
   <template>
+    <style>
+      .page-breaker {
+        page-break-after: always;
+      }
+    </style>
     <template if="{{data.type == 'cover'}}">
       <cv-special-cover data="{{data.special.cover}}" colorScheme="{{colorScheme}}"></cv-special-cover>
     </template>
     <template if="{{data.type == 'overview'}}">
       <cv-special-overview data="{{data.special.overview}}" colorScheme="{{colorScheme}}"></cv-special-overview>
     </template>
+    <template if="{{data.type == 'article'}}">
+      <cv-special-article data="{{data.special.article}}" colorScheme="{{colorScheme}}"></cv-special-article>
+    </template>
     <template repeat="{{element in data.content}}">
       <div>{{element.text}}</div>
     </template>
+    <div class="page-breaker"></div>
   </template>
 </polymer-element>
 
@@ -148,7 +172,6 @@
       :host {
         height: 100vh;
         min-height: 600px;
-        page-break-after: always;
       }
       header {
         padding-bottom: 20vh;
@@ -185,6 +208,34 @@
   </template>
 </polymer-element>
 
+<polymer-element name="cv-special-article" attributes="data colorScheme">
+  <template>
+    <style>
+      :host {
+        display: block;
+        padding: 120px 0;
+      }
+    </style>
+    <div class="article {{colorScheme || 'color-scheme-dark'}}">
+      <h2 class="scheme-text">{{data.title}}</h2>
+      <cv-marked-area data="{{data.content}}" colorScheme="{{colorScheme}}"></cv-marked-area>
+    </div>
+  </template>
+</polymer-element>
+
+<polymer-element name="cv-marked-area" attributes="data colorScheme">
+  <template>
+    <style>
+      .article {
+        max-width: 600px;
+      }
+    </style>
+    <div class="article {{colorScheme || 'color-scheme-dark'}}">
+      <marked-element class="scheme-text">{{data}}</marked-element>
+    </div>
+  </template>
+</polymer-element>
+
 <polymer-element name="cv-list" attributes="data colorScheme">
   <template>
     <style>
@@ -192,8 +243,10 @@
         margin-bottom: 2em;
       }
       .title {
-        display: block;
+        display: inline-block;
         margin-left: 120px;
+        margin-bottom: 0;
+        border-bottom: solid 2px transparent;
       }
       .pair dt {
         width: 120px;
@@ -224,12 +277,14 @@
       }
     </style>
     <div class="list {{colorScheme || 'color-scheme-dark'}}">
-      <h4 class="title scheme-text">{{data.title}}</h4>
+      <h4 class="title scheme-text scheme-border-trans">{{data.title}}</h4>
       <dl>
         <template repeat="{{detail in data.field}}">
           <div class="pair" layout horizontal>
             <dt class="scheme-text-sub">{{detail.name}}</dt>
-            <dd class="scheme-text" flex>{{detail.value}}</dd>
+            <dd class="scheme-text" flex>
+              <marked-element class="marked-inline">{{detail.value}}</marked-element>
+            </dd>
           </div>
         </template>
       </dl>
@@ -240,6 +295,11 @@
 <polymer-element name="cv-backgroud" attributes="data">
   <template>
     <style>
+      @media print {
+        :host {
+          display: none;
+        }
+      }
       :host {
         position: fixed;
       }

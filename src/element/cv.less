@@ -18,7 +18,10 @@ cv-polymer /deep/ [hidden-condition=true] {
 }
 
 @media print {
-  a {
+  cv-polymer /deep/ a {
+    text-decoration: none!important;
+  }
+  cv-polymer a {
     text-decoration: none!important;
   }
 }
@@ -151,4 +154,35 @@ cv-polymer /deep/ .marked-inline {
     }
   }
 
+}
+
+@media print {
+  cv-polymer .color-scheme-base {
+    .scheme-text {
+      color: rgba(0, 0, 0, 1);
+    }
+    .scheme-text-sub {
+      color: rgba(64, 64, 64, 1);
+    }
+    .scheme-text-thin {
+      color: rgba(128, 128, 128, 1);
+    }
+    .scheme-border-trans {
+      border-color: rgba(192, 192, 192, 1)
+    }
+  }
+  cv-polymer /deep/ .color-scheme-base {
+    .scheme-text {
+      color: rgba(0, 0, 0, 1);
+    }
+    .scheme-text-sub {
+      color: rgba(64, 64, 64, 1);
+    }
+    .scheme-text-thin {
+      color: rgba(128, 128, 128, 1);
+    }
+    .scheme-border-trans {
+      border-color: rgba(192, 192, 192, 1)
+    }
+  }
 }

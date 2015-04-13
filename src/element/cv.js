@@ -14,6 +14,8 @@
     return params;
   })();
 
+  var url_origin = location.origin;
+
   // Globals
   (function() {
     var global;
@@ -111,6 +113,8 @@
     var getDataUrl = function () {
       if(url_params.cvdata) {
         return url_params.cvdata;
+      } else if(url_origin.search(/github.io\//) >= 0) {
+        return '/centend-cvdata/cvdata.json';
       } else {
         return '/cv-data-example/cv-data-example.json';
       }
